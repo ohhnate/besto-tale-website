@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Besto Tale | Hytale Server</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800;900&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue-primary: #6B8DD6;
+            --blue-light: #8BA8E8;
+            --blue-dark: #5070B8;
+            --gold: #E8A83C;
+            --gold-light: #F4C060;
+            --gold-dark: #C48820;
+            --dark-bg: #0d1117;
+            --card-bg: rgba(13, 17, 23, 0.9);
+            --text-primary: #e6edf3;
+            --text-muted: #8b949e;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(ellipse at top left, rgba(107, 141, 214, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(232, 168, 60, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, #0d1117 0%, #161b22 100%);
+        }
+
+        /* Grid pattern overlay */
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: 
+                linear-gradient(rgba(107, 141, 214, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(107, 141, 214, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float-orb 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(107, 141, 214, 0.15);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(232, 168, 60, 0.1);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -10s;
+        }
+
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: rgba(107, 141, 214, 0.1);
+            top: 50%;
+            left: 20%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float-orb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 30px) scale(1.02); }
+        }
+
+        /* Main container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Logo section */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            max-width: 280px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 10px 40px rgba(107, 141, 214, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .server-name {
+            font-family: 'Exo 2', sans-serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--blue-light) 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .server-type {
+            font-size: 1rem;
+            color: var(--text-muted);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        /* Main card */
+        .main-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(107, 141, 214, 0.2);
+            border-radius: 16px;
+            padding: 45px;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tagline {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 35px;
+            line-height: 1.7;
+        }
+
+        .tagline strong {
+            color: var(--gold);
+        }
+
+        /* Server IP box */
+        .ip-section {
+            background: linear-gradient(135deg, rgba(107, 141, 214, 0.1) 0%, rgba(232, 168, 60, 0.05) 100%);
+            border: 1px solid rgba(107, 141, 214, 0.3);
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ip-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue-primary), var(--gold), var(--blue-primary));
+            background-size: 200% 100%;
+            animation: gradient-slide 3s linear infinite;
+        }
+
+        @keyframes gradient-slide {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .ip-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--blue-light);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .ip-address {
+            font-family: 'Exo 2', monospace;
+            font-size: clamp(1.4rem, 4vw, 1.8rem);
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, var(--blue-primary) 0%, var(--blue-dark) 100%);
+            border: none;
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(107, 141, 214, 0.4);
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 22px 15px;
+            background: rgba(107, 141, 214, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(107, 141, 214, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            background: rgba(107, 141, 214, 0.1);
+            transform: translateY(-4px);
+            border-color: rgba(107, 141, 214, 0.25);
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .feature-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Discord button */
+        .discord-section {
+            text-align: center;
+        }
+
+        .discord-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%);
+            color: #fff;
+            text-decoration: none;
+            padding: 16px 36px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 30px rgba(88, 101, 242, 0.25);
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(88, 101, 242, 0.35);
+        }
+
+        .discord-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Status indicator */
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #3fb950;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(63, 185, 80, 0); }
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .status-text strong {
+            color: #3fb950;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 35px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        footer a {
+            color: var(--blue-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .main-card {
+                padding: 28px 20px;
+            }
+            
+            .ip-address {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .copy-btn {
+                width: 100%;
+            }
+
+            .logo {
+                max-width: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="grid-pattern"></div>
+    
+    <!-- Floating orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+        <div class="logo-section">
+            <img src="logo.png" alt="Besto Games" class="logo">
+            <h1 class="server-name">Besto Tale</h1>
+            <p class="server-type">Official Hytale Server</p>
+        </div>
+
+        <div class="main-card">
+            <p class="tagline">
+                Embark on an <strong>epic adventure</strong> in a world of endless possibilities.<br>
+                Build, explore, and conquer with friends.
+            </p>
+
+            <div class="ip-section">
+                <div class="ip-label">Server Address</div>
+                <div class="ip-address">
+                    <span id="server-ip">besto-tale.com</span>
+                    <button class="copy-btn" onclick="copyIP()">Copy IP</button>
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🌍</div>
+                    <div class="feature-title">Fresh Universe</div>
+                    <div class="feature-desc">Explore a brand new world</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">👥</div>
+                    <div class="feature-title">Multiplayer</div>
+                    <div class="feature-desc">Play with friends</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Premium Hosting</div>
+                    <div class="feature-desc">8GB dedicated RAM</div>
+                </div>
+            </div>
+
+            <div class="discord-section">
+                <a href="#" class="discord-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                    </svg>
+                    Join Our Discord
+                </a>
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                <span class="status-text"><strong>Online</strong> • Ready to play</span>
+            </div>
+        </div>
+
+        <footer>
+            <p>Powered by <a href="https://pebblehost.com" target="_blank">PebbleHost</a> • Besto Games © 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        function copyIP() {
+            const ip = document.getElementById('server-ip').textContent;
+            navigator.clipboard.writeText(ip).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy IP';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
